@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: processor
+  template:
+    metadata:
+      labels:
+        app: processor
+    spec:
+      containers:
+      - name: processor
+        image: northamerica-northeast1-docker.pkg.dev/kubernetes-assignment-417316/cloud-assignment/processor:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /nikunj_PV_dir
+          name: persistent-storage
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: pv-claim
